@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>내 고등학교 3년 포트폴리오</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .year-tab {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .year-btn {
+            padding: 10px 20px;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .year-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .year-btn:hover {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .grade-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .grade-table th, .grade-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .grade-table th {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .grade-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .input-box {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: Arial;
+            font-size: 14px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            flex: 1;
+        }
+        
+        button:hover {
+            background-color: #764ba2;
+        }
+        
+        .achievement-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .achievement-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-date {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .average {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header>
+            <h1>🎓 내 고등학교 3년 포트폴리오</h1>
+            <p class="subtitle">성적, 생기부, 활동을 한눈에 정리해요</p>
+        </header>
+
+        <!-- 성적 섹션 -->
+        <div class="section">
+            <h2>📊 교과 성적</h2>
+            
+            <!-- 학년 선택 버튼 -->
+            <div class="year-tab">
+                <button class="year-btn active" onclick="showYear(1)">1학년</button>
+                <button class="year-btn" onclick="showYear(2)">2학년</button>
+                <button class="year-btn" onclick="showYear(3)">3학년</button>
+            </div>
+            
+            <!-- 성적 입력 폼 -->
+            <div id="gradeForm" style="margin-bottom: 30px;">
+                <h3 style="margin-bottom: 15px;">성적 입력하기</h3>
+                <div class="input-box">
+                    <label>과목명</label>
+                    <input type="text" id="subject" placeholder="예: 국어, 수학, 영어">
+                </div>
+                <div class="input-box">
+                    <label>등급</label>
+                    <select id="grade">
+                        <option>1등급</option>
+                        <option>2등급</option>
+                        <option>3등급</option>
+                        <option>4등급</option>
+                        <option>5등급</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>성취도 (%)</label>
+                    <input type="number" id="achievement" placeholder="0~100" min="0" max="100">
+                </div>
+                <button onclick="addGrade()">성적 추가</button>
+            </div>
+            
+            <!-- 성적 표시 -->
+            <table class="grade-table" id="gradeTable">
+                <thead>
+                    <tr>
+                        <th>과목</th>
+                        <th>등급</th>
+                        <th>성취도</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody id="gradeBody"></tbody>
+            </table>
+            
+            <div class="average" id="average">평균 등급: --</div>
+        </div>
+
+        <!-- 생기부 섹션 -->
+        <div class="section">
+            <h2>✍️ 생기부 기록</h2>
+            
+            <!-- 생기부 입력 -->
+            <div style="margin-bottom: 30px;">
+                <h3 style="margin-bottom: 15px;">활동 기록 추가</h3>
+                <div class="input-box">
+                    <label>활동 종류</label>
+                    <select id="activityType">
+                        <option>동아리</option>
+                        <option>수상</option>
+                        <option>진로활동</option>
+                        <option>봉사활동</option>
+                        <option>특별한 경험</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>활동 제목</label>
+                    <input type="text" id="activityTitle" placeholder="예: 영어 동아리 부회장">
+                </div>
+                <div class="input-box">
+                    <label>활동 내용</label>
+                    <textarea id="activityContent" placeholder="이 활동에서 뭘 했는지 설명해 주세요"></textarea>
+                </div>
+                <div class="input-box">
+                    <label>활동 시기</label>
+                    <input type="text" id="activityDate" placeholder="예: 1학년 1학기">
+                </div>
+                <button onclick="addActivity()">활동 추가</button>
+            </div>
+            
+            <!-- 활동 목록 -->
+            <div id="activityList"></div>
+        </div>
+
+        <!-- 자기소개 섹션 -->
+        <div class="section">
+            <h2>💭 나를 소개합니다</h2>
+            <div class="input-box">
+                <label>이름</label>
+                <input type="text" id="name" placeholder="이름을 입력하세요">
+            </div>
+            <div class="input-box">
+                <label>학교</label>
+                <input type="text" id="school" placeholder="학교 이름">
+            </div>
+            <div class="input-box">
+                <label>진로 목표</label>
+                <textarea id="dream" placeholder="3년 동안 이루고 싶은 목표를 적어주세요"></textarea>
+            </div>
+            <button onclick="saveProfile()">프로필 저장</button>
+        </div>
+    </div>
+
+    <script>
+        // 데이터를 저장할 객체
+        let myData = {
+            grades: { 1: [], 2: [], 3: [] },
+            activities: [],
+            profile: {}
+        };
+        
+        let currentYear = 1;
+        
+        // 학년 선택
+        function showYear(year) {
+            currentYear = year;
+            
+            // 버튼 스타일 변경
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayGrades();
+        }
+        
+        // 성적 추가
+        function addGrade() {
+            let subject = document.getElementById('subject').value;
+            let grade = document.getElementById('grade').value;
+            let achievement = document.getElementById('achievement').value;
+            
+            if (!subject || !achievement) {
+                alert('모든 항목을 입력해 주세요!');
+                return;
+            }
+            
+            myData.grades[currentYear].push({
+                subject: subject,
+                grade: grade,
+                achievement: achievement
+            });
+            
+            // 입력창 초기화
+            document.getElementById('subject').value = '';
+            document.getElementById('achievement').value = '';
+            
+            displayGrades();
+            calculateAverage();
+        }
+        
+        // 성적 삭제
+        function deleteGrade(index) {
+            myData.grades[currentYear].splice(index, 1);
+            displayGrades();
+            calculateAverage();
+        }
+        
+        // 성적 표시
+        function displayGrades() {
+            let tbody = document.getElementById('gradeBody');
+            tbody.innerHTML = '';
+            
+            myData.grades[currentYear].forEach((item, index) => {
+                let row = `
+                    <tr>
+                        <td>${item.subject}</td>
+                        <td>${item.grade}</td>
+                        <td>${item.achievement}%</td>
+                        <td>
+                            <button onclick="deleteGrade(${index})" style="background-color: #ff6b6b; padding: 5px 10px;">삭제</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+        
+        // 평균 계산
+        function calculateAverage() {
+            let grades = myData.grades[currentYear];
+            if (grades.length === 0) {
+                document.getElementById('average').innerHTML = '평균 등급: --';
+                return;
+            }
+            
+            let total = 0;
+            grades.forEach(item => {
+                let gradeNum = parseInt(item.grade);
+                total += gradeNum;
+            });
+            
+            let avg = (total / grades.length).toFixed(2);
+            document.getElementById('average').innerHTML = `평균 등급: ${avg}등급`;
+        }
+        
+        // 활동 추가
+        function addActivity() {
+            let type = document.getElementById('activityType').value;
+            let title = document.getElementById('activityTitle').value;
+            let content = document.getElementById('activityContent').value;
+            let date = document.getElementById('activityDate').value;
+            
+            if (!title || !content || !date) {
+                alert('모든 항목을 입력해 주세요!');
+                return;
+            }
+            
+            myData.activities.push({
+                type: type,
+                title: title,
+                content: content,
+                date: date
+            });
+            
+            // 입력창 초기화
+            document.getElementById('activityTitle').value = '';
+            document.getElementById('activityContent').value = '';
+            document.getElementById('activityDate').value = '';
+            
+            displayActivities();
+        }
+        
+        // 활동 표시
+        function displayActivities() {
+            let list = document.getElementById('activityList');
+            list.innerHTML = '';
+            
+            myData.activities.forEach((item, index) => {
+                let html = `
+                    <div class="achievement-item">
+                        <span style="background-color: #667eea; color: white; padding: 5px 10px; border-radius: 3px; font-size: 12px;">
+                            ${item.type}
+                        </span>
+                        <div class="achievement-title">${item.title}</div>
+                        <div style="margin: 10px 0; color: #555; line-height: 1.6;">
+                            ${item.content}
+                        </div>
+                        <div class="achievement-date">📅 ${
